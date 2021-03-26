@@ -6,6 +6,8 @@
       "@components/*": ["components/*"],
       "@constants": ["constants"],
       "@constants/*": ["constants/*"],
+      "@graphql": ["graphql"],
+      "@graphql/*": ["graphql/*"],
       "@contexts": ["contexts"],
       "@contexts/*": ["contexts/*"],
       "@hooks": ["hooks"],
