@@ -5,9 +5,13 @@ export const Container = styled.li`
     padding: 2rem;
     background: ${theme.colors.lighten};
     border-radius: 0.5rem;
+    transition: 180ms ease-in-out;
+
+    cursor: pointer;
 
     > img {
       height: 20rem;
+      filter: grayscale(100%);
     }
 
     > header {
@@ -23,12 +27,20 @@ export const Container = styled.li`
         line-height: 1.5rem;
       }
     }
+
+    &:hover {
+      transform: translateY(-0.8rem);
+
+      img {
+        filter: none;
+      }
+    }
   `}
 `;
 
 export const Row = styled.div`
   ${({ theme }) => css`
-    line-height: 2rem;
+    line-height: 2.5rem;
     border-bottom: 0.06rem solid ${theme.colors.textCard};
 
     display: flex;
@@ -45,16 +57,6 @@ export const Row = styled.div`
 
     > span {
       color: ${theme.colors.link};
-    }
-
-    > small {
-      padding: 0.4rem;
-      color: ${theme.colors.text};
-      background: ${theme.colors.badge};
-      font-size: 0.8rem;
-      font-weight: 600;
-      line-height: 0.8rem;
-      border-radius: 0.2rem;
     }
   `}
 `;

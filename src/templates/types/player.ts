@@ -1,7 +1,5 @@
 type AvatarProps = {
   url: string;
-  width: string;
-  height: string;
 };
 
 type Player = {
@@ -23,4 +21,8 @@ type Player = {
 
 export type PlayersProps = {
   players: Player[];
+};
+
+export type PlayerProps = {
+  player: Player;
 };

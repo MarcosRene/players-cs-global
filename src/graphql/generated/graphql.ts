@@ -2733,14 +2733,33 @@ export type GetPageBySlugQuery = (
   )> }
 );
 
-export type GetPlayersQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetPlayersQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+}>;
 
 
 export type GetPlayersQuery = (
   { __typename?: 'Query' }
   & { players: Array<(
     { __typename?: 'Player' }
-    & Pick<Player, 'id' | 'nick' | 'slug' | 'name' | 'age' | 'team' | 'major'>
+    & Pick<Player, 'id' | 'slug' | 'nick' | 'name' | 'age' | 'team' | 'major' | 'ratio' | 'dpr' | 'kast' | 'impact' | 'adr' | 'kpr'>
+    & { avatar: (
+      { __typename?: 'Asset' }
+      & Pick<Asset, 'url'>
+    ) }
+  )> }
+);
+
+export type GetPlayerBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type GetPlayerBySlugQuery = (
+  { __typename?: 'Query' }
+  & { player?: Maybe<(
+    { __typename?: 'Player' }
+    & Pick<Player, 'id' | 'slug' | 'nick' | 'name' | 'age' | 'team' | 'major' | 'ratio' | 'dpr' | 'kast' | 'impact' | 'adr' | 'kpr'>
     & { avatar: (
       { __typename?: 'Asset' }
       & Pick<Asset, 'url'>

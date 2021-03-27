@@ -24,18 +24,47 @@ export const GET_PAGE_BY_SLUG = gql`
 `;
 
 export const GET_PLAYERS = gql`
-  query getPlayers {
-    players {
+  query getPlayers($first: Int) {
+    players(first: $first) {
       id
-      nick
       slug
       avatar {
         url
       }
+      nick
       name
       age
       team
       major
+      ratio
+      dpr
+      kast
+      impact
+      adr
+      kpr
+    }
+  }
+`;
+
+export const GET_PLAYER_BY_SLUG = gql`
+  query getPlayerBySlug($slug: String!) {
+    player(where: { slug: $slug }) {
+      id
+      slug
+      avatar {
+        url
+      }
+      nick
+      name
+      age
+      team
+      major
+      ratio
+      dpr
+      kast
+      impact
+      adr
+      kpr
     }
   }
 `;
