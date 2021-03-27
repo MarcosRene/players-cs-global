@@ -1,32 +1,36 @@
 import { memo } from 'react';
 
+import { PlayersProps } from '@pages/types/player';
+
 import { Container, Row } from './styles';
 
-const CardPlayer = () => (
-  <Container>
-    <img src="/assets/s1mple.png" alt="S1mpleo" />
-    <header>
-      <h2>S1mpleo</h2>
-      <span>🇺🇦️ Aleksandr Kostyliev</span>
-    </header>
+const CardPlayer = ({ players }: PlayersProps) => (
+  <div>
+    {players?.map((player) => (
+      <Container key={player.id}>
+        <img src={player.avatar.url} alt={player.name} />
+        <header>
+          <h2>{player.nick}</h2>
+          <span>{player.name}</span>
+        </header>
 
-    <Row>
-      <h4>Age</h4>
-      <span>23 years</span>
-    </Row>
+        <Row>
+          <h4>Age</h4>
+          <span>{`${player.age} years`}</span>
+        </Row>
 
-    <Row>
-      <h4>Current Team</h4>
-      <span>Natus Vincere</span>
-    </Row>
+        <Row>
+          <h4>Current Team</h4>
+          <span>{player.team}</span>
+        </Row>
 
-    <Row>
-      <h4>Top 20</h4>
-      <span>
-        #4 <small>(16)</small>
-      </span>
-    </Row>
-  </Container>
+        <Row>
+          <h4>Major achievements</h4>
+          <small>{`${player.major} x Major winner`}</small>
+        </Row>
+      </Container>
+    ))}
+  </div>
 );
 
 export default memo(CardPlayer);

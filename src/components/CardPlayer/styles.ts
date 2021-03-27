@@ -46,5 +46,15 @@ export const Row = styled.div`
     > span {
       color: ${theme.colors.link};
     }
+
+    > small {
+      padding: 0.4rem;
+      color: ${theme.colors.text};
+      background: ${theme.colors.badge};
+      font-size: 0.8rem;
+      font-weight: 600;
+      line-height: 0.8rem;
+      border-radius: 0.2rem;
+    }
   `}
 `;

@@ -65,6 +65,7 @@ export type Asset = Node & {
   size?: Maybe<Scalars['Float']>;
   /** The mime type of the file */
   mimeType?: Maybe<Scalars['String']>;
+  avatarPlayer: Array<Player>;
   /** List of Asset versions */
   history: Array<Version>;
   /** Get the url for the asset with provided transformations applied. */
@@ -106,6 +107,19 @@ export type AssetPublishedAtArgs = {
 
 
 /** Asset system model */
+export type AssetAvatarPlayerArgs = {
+  where?: Maybe<PlayerWhereInput>;
+  orderBy?: Maybe<PlayerOrderByInput>;
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  locales?: Maybe<Array<Locale>>;
+};
+
+
+/** Asset system model */
 export type AssetHistoryArgs = {
   limit?: Scalars['Int'];
   skip?: Scalars['Int'];
@@ -116,6 +130,13 @@ export type AssetHistoryArgs = {
 /** Asset system model */
 export type AssetUrlArgs = {
   transformation?: Maybe<AssetTransformationInput>;
+};
+
+export type AssetConnectInput = {
+  /** Document to connect */
+  where: AssetWhereUniqueInput;
+  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
+  position?: Maybe<ConnectPositionInput>;
 };
 
 /** A connection to a list of items. */
@@ -137,6 +158,7 @@ export type AssetCreateInput = {
   width?: Maybe<Scalars['Float']>;
   size?: Maybe<Scalars['Float']>;
   mimeType?: Maybe<Scalars['String']>;
+  avatarPlayer?: Maybe<PlayerCreateManyInlineInput>;
   /** Inline mutations for managing document localizations excluding the default locale */
   localizations?: Maybe<AssetCreateLocalizationsInput>;
 };
@@ -161,6 +183,20 @@ export type AssetCreateLocalizationInput = {
 export type AssetCreateLocalizationsInput = {
   /** Create localizations for the newly-created document */
   create?: Maybe<Array<AssetCreateLocalizationInput>>;
+};
+
+export type AssetCreateManyInlineInput = {
+  /** Create and connect multiple existing Asset documents */
+  create?: Maybe<Array<AssetCreateInput>>;
+  /** Connect multiple existing Asset documents */
+  connect?: Maybe<Array<AssetWhereUniqueInput>>;
+};
+
+export type AssetCreateOneInlineInput = {
+  /** Create and connect one Asset document */
+  create?: Maybe<AssetCreateInput>;
+  /** Connect one existing Asset document */
+  connect?: Maybe<AssetWhereUniqueInput>;
 };
 
 /** An edge in a connection. */
@@ -246,6 +282,9 @@ export type AssetManyWhereInput = {
   publishedAt_gt?: Maybe<Scalars['DateTime']>;
   /** All values greater than or equal the given value. */
   publishedAt_gte?: Maybe<Scalars['DateTime']>;
+  avatarPlayer_every?: Maybe<PlayerWhereInput>;
+  avatarPlayer_some?: Maybe<PlayerWhereInput>;
+  avatarPlayer_none?: Maybe<PlayerWhereInput>;
 };
 
 export enum AssetOrderByInput {
@@ -286,6 +325,7 @@ export type AssetUpdateInput = {
   width?: Maybe<Scalars['Float']>;
   size?: Maybe<Scalars['Float']>;
   mimeType?: Maybe<Scalars['String']>;
+  avatarPlayer?: Maybe<PlayerUpdateManyInlineInput>;
   /** Manage document localizations */
   localizations?: Maybe<AssetUpdateLocalizationsInput>;
 };
@@ -312,6 +352,23 @@ export type AssetUpdateLocalizationsInput = {
   upsert?: Maybe<Array<AssetUpsertLocalizationInput>>;
   /** Localizations to delete */
   delete?: Maybe<Array<Locale>>;
+};
+
+export type AssetUpdateManyInlineInput = {
+  /** Create and connect multiple Asset documents */
+  create?: Maybe<Array<AssetCreateInput>>;
+  /** Connect multiple existing Asset documents */
+  connect?: Maybe<Array<AssetConnectInput>>;
+  /** Override currently-connected documents with multiple existing Asset documents */
+  set?: Maybe<Array<AssetWhereUniqueInput>>;
+  /** Update multiple Asset documents */
+  update?: Maybe<Array<AssetUpdateWithNestedWhereUniqueInput>>;
+  /** Upsert multiple Asset documents */
+  upsert?: Maybe<Array<AssetUpsertWithNestedWhereUniqueInput>>;
+  /** Disconnect multiple Asset documents */
+  disconnect?: Maybe<Array<AssetWhereUniqueInput>>;
+  /** Delete multiple Asset documents */
+  delete?: Maybe<Array<AssetWhereUniqueInput>>;
 };
 
 export type AssetUpdateManyInput = {
@@ -347,6 +404,21 @@ export type AssetUpdateManyWithNestedWhereInput = {
   where: AssetWhereInput;
   /** Update many input */
   data: AssetUpdateManyInput;
+};
+
+export type AssetUpdateOneInlineInput = {
+  /** Create and connect one Asset document */
+  create?: Maybe<AssetCreateInput>;
+  /** Update single Asset document */
+  update?: Maybe<AssetUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single Asset document */
+  upsert?: Maybe<AssetUpsertWithNestedWhereUniqueInput>;
+  /** Connect existing Asset document */
+  connect?: Maybe<AssetWhereUniqueInput>;
+  /** Disconnect currently connected Asset document */
+  disconnect?: Maybe<Scalars['Boolean']>;
+  /** Delete currently connected Asset document */
+  delete?: Maybe<Scalars['Boolean']>;
 };
 
 export type AssetUpdateWithNestedWhereUniqueInput = {
@@ -552,6 +624,9 @@ export type AssetWhereInput = {
   mimeType_ends_with?: Maybe<Scalars['String']>;
   /** All values not ending with the given string */
   mimeType_not_ends_with?: Maybe<Scalars['String']>;
+  avatarPlayer_every?: Maybe<PlayerWhereInput>;
+  avatarPlayer_some?: Maybe<PlayerWhereInput>;
+  avatarPlayer_none?: Maybe<PlayerWhereInput>;
 };
 
 /** References Asset record uniquely */
@@ -796,6 +871,46 @@ export type Mutation = {
    * @deprecated Please use the new paginated many mutation (unpublishManyPagesConnection)
    */
   unpublishManyPages: BatchPayload;
+  /** Create one player */
+  createPlayer?: Maybe<Player>;
+  /** Update one player */
+  updatePlayer?: Maybe<Player>;
+  /** Delete one player from _all_ existing stages. Returns deleted document. */
+  deletePlayer?: Maybe<Player>;
+  /** Upsert one player */
+  upsertPlayer?: Maybe<Player>;
+  /** Publish one player */
+  publishPlayer?: Maybe<Player>;
+  /** Unpublish one player from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  unpublishPlayer?: Maybe<Player>;
+  /** Update many Player documents */
+  updateManyPlayersConnection: PlayerConnection;
+  /** Delete many Player documents, return deleted documents */
+  deleteManyPlayersConnection: PlayerConnection;
+  /** Publish many Player documents */
+  publishManyPlayersConnection: PlayerConnection;
+  /** Find many Player documents that match criteria in specified stage and unpublish from target stages */
+  unpublishManyPlayersConnection: PlayerConnection;
+  /**
+   * Update many players
+   * @deprecated Please use the new paginated many mutation (updateManyPlayersConnection)
+   */
+  updateManyPlayers: BatchPayload;
+  /**
+   * Delete many Player documents
+   * @deprecated Please use the new paginated many mutation (deleteManyPlayersConnection)
+   */
+  deleteManyPlayers: BatchPayload;
+  /**
+   * Publish many Player documents
+   * @deprecated Please use the new paginated many mutation (publishManyPlayersConnection)
+   */
+  publishManyPlayers: BatchPayload;
+  /**
+   * Unpublish many Player documents
+   * @deprecated Please use the new paginated many mutation (unpublishManyPlayersConnection)
+   */
+  unpublishManyPlayers: BatchPayload;
 };
 
 
@@ -1014,6 +1129,108 @@ export type MutationPublishManyPagesArgs = {
 
 export type MutationUnpublishManyPagesArgs = {
   where?: Maybe<PageManyWhereInput>;
+  from?: Array<Stage>;
+};
+
+
+export type MutationCreatePlayerArgs = {
+  data: PlayerCreateInput;
+};
+
+
+export type MutationUpdatePlayerArgs = {
+  where: PlayerWhereUniqueInput;
+  data: PlayerUpdateInput;
+};
+
+
+export type MutationDeletePlayerArgs = {
+  where: PlayerWhereUniqueInput;
+};
+
+
+export type MutationUpsertPlayerArgs = {
+  where: PlayerWhereUniqueInput;
+  upsert: PlayerUpsertInput;
+};
+
+
+export type MutationPublishPlayerArgs = {
+  where: PlayerWhereUniqueInput;
+  to?: Array<Stage>;
+};
+
+
+export type MutationUnpublishPlayerArgs = {
+  where: PlayerWhereUniqueInput;
+  from?: Array<Stage>;
+};
+
+
+export type MutationUpdateManyPlayersConnectionArgs = {
+  where?: Maybe<PlayerManyWhereInput>;
+  data: PlayerUpdateManyInput;
+  skip?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['ID']>;
+  after?: Maybe<Scalars['ID']>;
+};
+
+
+export type MutationDeleteManyPlayersConnectionArgs = {
+  where?: Maybe<PlayerManyWhereInput>;
+  skip?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['ID']>;
+  after?: Maybe<Scalars['ID']>;
+};
+
+
+export type MutationPublishManyPlayersConnectionArgs = {
+  where?: Maybe<PlayerManyWhereInput>;
+  from?: Maybe<Stage>;
+  to?: Array<Stage>;
+  skip?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['ID']>;
+  after?: Maybe<Scalars['ID']>;
+};
+
+
+export type MutationUnpublishManyPlayersConnectionArgs = {
+  where?: Maybe<PlayerManyWhereInput>;
+  stage?: Maybe<Stage>;
+  from?: Array<Stage>;
+  skip?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['ID']>;
+  after?: Maybe<Scalars['ID']>;
+};
+
+
+export type MutationUpdateManyPlayersArgs = {
+  where?: Maybe<PlayerManyWhereInput>;
+  data: PlayerUpdateManyInput;
+};
+
+
+export type MutationDeleteManyPlayersArgs = {
+  where?: Maybe<PlayerManyWhereInput>;
+};
+
+
+export type MutationPublishManyPlayersArgs = {
+  where?: Maybe<PlayerManyWhereInput>;
+  to?: Array<Stage>;
+};
+
+
+export type MutationUnpublishManyPlayersArgs = {
+  where?: Maybe<PlayerManyWhereInput>;
   from?: Array<Stage>;
 };
 
@@ -1390,6 +1607,791 @@ export type PageWhereUniqueInput = {
   slug?: Maybe<Scalars['String']>;
 };
 
+export type Player = Node & {
+  __typename?: 'Player';
+  /** System stage field */
+  stage: Stage;
+  /** Get the document in other stages */
+  documentInStages: Array<Player>;
+  /** The unique identifier */
+  id: Scalars['ID'];
+  /** The time the document was created */
+  createdAt: Scalars['DateTime'];
+  /** The time the document was updated */
+  updatedAt: Scalars['DateTime'];
+  /** The time the document was published. Null on documents in draft stage. */
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  nick: Scalars['String'];
+  slug: Scalars['String'];
+  avatar: Asset;
+  name: Scalars['String'];
+  age: Scalars['Int'];
+  team: Scalars['String'];
+  major: Scalars['Int'];
+  ratio: Scalars['Float'];
+  dpr: Scalars['Float'];
+  kast: Scalars['Float'];
+  impact: Scalars['Float'];
+  adr: Scalars['Float'];
+  kpr: Scalars['Float'];
+  /** List of Player versions */
+  history: Array<Version>;
+};
+
+
+export type PlayerDocumentInStagesArgs = {
+  stages?: Array<Stage>;
+  includeCurrent?: Scalars['Boolean'];
+  inheritLocale?: Scalars['Boolean'];
+};
+
+
+export type PlayerAvatarArgs = {
+  locales?: Maybe<Array<Locale>>;
+};
+
+
+export type PlayerHistoryArgs = {
+  limit?: Scalars['Int'];
+  skip?: Scalars['Int'];
+  stageOverride?: Maybe<Stage>;
+};
+
+export type PlayerConnectInput = {
+  /** Document to connect */
+  where: PlayerWhereUniqueInput;
+  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
+  position?: Maybe<ConnectPositionInput>;
+};
+
+/** A connection to a list of items. */
+export type PlayerConnection = {
+  __typename?: 'PlayerConnection';
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** A list of edges. */
+  edges: Array<PlayerEdge>;
+  aggregate: Aggregate;
+};
+
+export type PlayerCreateInput = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  nick: Scalars['String'];
+  slug: Scalars['String'];
+  avatar: AssetCreateOneInlineInput;
+  name: Scalars['String'];
+  age: Scalars['Int'];
+  team: Scalars['String'];
+  major: Scalars['Int'];
+  ratio: Scalars['Float'];
+  dpr: Scalars['Float'];
+  kast: Scalars['Float'];
+  impact: Scalars['Float'];
+  adr: Scalars['Float'];
+  kpr: Scalars['Float'];
+};
+
+export type PlayerCreateManyInlineInput = {
+  /** Create and connect multiple existing Player documents */
+  create?: Maybe<Array<PlayerCreateInput>>;
+  /** Connect multiple existing Player documents */
+  connect?: Maybe<Array<PlayerWhereUniqueInput>>;
+};
+
+export type PlayerCreateOneInlineInput = {
+  /** Create and connect one Player document */
+  create?: Maybe<PlayerCreateInput>;
+  /** Connect one existing Player document */
+  connect?: Maybe<PlayerWhereUniqueInput>;
+};
+
+/** An edge in a connection. */
+export type PlayerEdge = {
+  __typename?: 'PlayerEdge';
+  /** The item at the end of the edge. */
+  node: Player;
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+};
+
+/** Identifies documents */
+export type PlayerManyWhereInput = {
+  /** Contains search across all appropriate fields. */
+  _search?: Maybe<Scalars['String']>;
+  /** Logical AND on all given filters. */
+  AND?: Maybe<Array<PlayerWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: Maybe<Array<PlayerWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: Maybe<Array<PlayerWhereInput>>;
+  id?: Maybe<Scalars['ID']>;
+  /** All values that are not equal to given value. */
+  id_not?: Maybe<Scalars['ID']>;
+  /** All values that are contained in given list. */
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  /** All values that are not contained in given list. */
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  /** All values containing the given string. */
+  id_contains?: Maybe<Scalars['ID']>;
+  /** All values not containing the given string. */
+  id_not_contains?: Maybe<Scalars['ID']>;
+  /** All values starting with the given string. */
+  id_starts_with?: Maybe<Scalars['ID']>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: Maybe<Scalars['ID']>;
+  /** All values ending with the given string. */
+  id_ends_with?: Maybe<Scalars['ID']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  createdAt_not?: Maybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  createdAt_in?: Maybe<Array<Scalars['DateTime']>>;
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: Maybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  createdAt_lt?: Maybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  createdAt_lte?: Maybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  createdAt_gt?: Maybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  updatedAt_not?: Maybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: Maybe<Array<Scalars['DateTime']>>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: Maybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: Maybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: Maybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: Maybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: Maybe<Scalars['DateTime']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  publishedAt_not?: Maybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  publishedAt_in?: Maybe<Array<Scalars['DateTime']>>;
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: Maybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  publishedAt_lt?: Maybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: Maybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  publishedAt_gt?: Maybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: Maybe<Scalars['DateTime']>;
+  nick?: Maybe<Scalars['String']>;
+  /** All values that are not equal to given value. */
+  nick_not?: Maybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  nick_in?: Maybe<Array<Scalars['String']>>;
+  /** All values that are not contained in given list. */
+  nick_not_in?: Maybe<Array<Scalars['String']>>;
+  /** All values containing the given string. */
+  nick_contains?: Maybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  nick_not_contains?: Maybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  nick_starts_with?: Maybe<Scalars['String']>;
+  /** All values not starting with the given string. */
+  nick_not_starts_with?: Maybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  nick_ends_with?: Maybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  nick_not_ends_with?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  /** All values that are not equal to given value. */
+  slug_not?: Maybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  slug_in?: Maybe<Array<Scalars['String']>>;
+  /** All values that are not contained in given list. */
+  slug_not_in?: Maybe<Array<Scalars['String']>>;
+  /** All values containing the given string. */
+  slug_contains?: Maybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  slug_not_contains?: Maybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  slug_starts_with?: Maybe<Scalars['String']>;
+  /** All values not starting with the given string. */
+  slug_not_starts_with?: Maybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  slug_ends_with?: Maybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  slug_not_ends_with?: Maybe<Scalars['String']>;
+  avatar?: Maybe<AssetWhereInput>;
+  name?: Maybe<Scalars['String']>;
+  /** All values that are not equal to given value. */
+  name_not?: Maybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  name_in?: Maybe<Array<Scalars['String']>>;
+  /** All values that are not contained in given list. */
+  name_not_in?: Maybe<Array<Scalars['String']>>;
+  /** All values containing the given string. */
+  name_contains?: Maybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  name_not_contains?: Maybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  name_starts_with?: Maybe<Scalars['String']>;
+  /** All values not starting with the given string. */
+  name_not_starts_with?: Maybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  name_ends_with?: Maybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  name_not_ends_with?: Maybe<Scalars['String']>;
+  age?: Maybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  age_not?: Maybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  age_in?: Maybe<Array<Scalars['Int']>>;
+  /** All values that are not contained in given list. */
+  age_not_in?: Maybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  age_lt?: Maybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  age_lte?: Maybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  age_gt?: Maybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  age_gte?: Maybe<Scalars['Int']>;
+  team?: Maybe<Scalars['String']>;
+  /** All values that are not equal to given value. */
+  team_not?: Maybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  team_in?: Maybe<Array<Scalars['String']>>;
+  /** All values that are not contained in given list. */
+  team_not_in?: Maybe<Array<Scalars['String']>>;
+  /** All values containing the given string. */
+  team_contains?: Maybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  team_not_contains?: Maybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  team_starts_with?: Maybe<Scalars['String']>;
+  /** All values not starting with the given string. */
+  team_not_starts_with?: Maybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  team_ends_with?: Maybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  team_not_ends_with?: Maybe<Scalars['String']>;
+  major?: Maybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  major_not?: Maybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  major_in?: Maybe<Array<Scalars['Int']>>;
+  /** All values that are not contained in given list. */
+  major_not_in?: Maybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  major_lt?: Maybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  major_lte?: Maybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  major_gt?: Maybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  major_gte?: Maybe<Scalars['Int']>;
+  ratio?: Maybe<Scalars['Float']>;
+  /** All values that are not equal to given value. */
+  ratio_not?: Maybe<Scalars['Float']>;
+  /** All values that are contained in given list. */
+  ratio_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values that are not contained in given list. */
+  ratio_not_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  ratio_lt?: Maybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  ratio_lte?: Maybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  ratio_gt?: Maybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  ratio_gte?: Maybe<Scalars['Float']>;
+  dpr?: Maybe<Scalars['Float']>;
+  /** All values that are not equal to given value. */
+  dpr_not?: Maybe<Scalars['Float']>;
+  /** All values that are contained in given list. */
+  dpr_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values that are not contained in given list. */
+  dpr_not_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  dpr_lt?: Maybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  dpr_lte?: Maybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  dpr_gt?: Maybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  dpr_gte?: Maybe<Scalars['Float']>;
+  kast?: Maybe<Scalars['Float']>;
+  /** All values that are not equal to given value. */
+  kast_not?: Maybe<Scalars['Float']>;
+  /** All values that are contained in given list. */
+  kast_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values that are not contained in given list. */
+  kast_not_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  kast_lt?: Maybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  kast_lte?: Maybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  kast_gt?: Maybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  kast_gte?: Maybe<Scalars['Float']>;
+  impact?: Maybe<Scalars['Float']>;
+  /** All values that are not equal to given value. */
+  impact_not?: Maybe<Scalars['Float']>;
+  /** All values that are contained in given list. */
+  impact_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values that are not contained in given list. */
+  impact_not_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  impact_lt?: Maybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  impact_lte?: Maybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  impact_gt?: Maybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  impact_gte?: Maybe<Scalars['Float']>;
+  adr?: Maybe<Scalars['Float']>;
+  /** All values that are not equal to given value. */
+  adr_not?: Maybe<Scalars['Float']>;
+  /** All values that are contained in given list. */
+  adr_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values that are not contained in given list. */
+  adr_not_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  adr_lt?: Maybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  adr_lte?: Maybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  adr_gt?: Maybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  adr_gte?: Maybe<Scalars['Float']>;
+  kpr?: Maybe<Scalars['Float']>;
+  /** All values that are not equal to given value. */
+  kpr_not?: Maybe<Scalars['Float']>;
+  /** All values that are contained in given list. */
+  kpr_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values that are not contained in given list. */
+  kpr_not_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  kpr_lt?: Maybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  kpr_lte?: Maybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  kpr_gt?: Maybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  kpr_gte?: Maybe<Scalars['Float']>;
+};
+
+export enum PlayerOrderByInput {
+  IdAsc = 'id_ASC',
+  IdDesc = 'id_DESC',
+  CreatedAtAsc = 'createdAt_ASC',
+  CreatedAtDesc = 'createdAt_DESC',
+  UpdatedAtAsc = 'updatedAt_ASC',
+  UpdatedAtDesc = 'updatedAt_DESC',
+  PublishedAtAsc = 'publishedAt_ASC',
+  PublishedAtDesc = 'publishedAt_DESC',
+  NickAsc = 'nick_ASC',
+  NickDesc = 'nick_DESC',
+  SlugAsc = 'slug_ASC',
+  SlugDesc = 'slug_DESC',
+  NameAsc = 'name_ASC',
+  NameDesc = 'name_DESC',
+  AgeAsc = 'age_ASC',
+  AgeDesc = 'age_DESC',
+  TeamAsc = 'team_ASC',
+  TeamDesc = 'team_DESC',
+  MajorAsc = 'major_ASC',
+  MajorDesc = 'major_DESC',
+  RatioAsc = 'ratio_ASC',
+  RatioDesc = 'ratio_DESC',
+  DprAsc = 'dpr_ASC',
+  DprDesc = 'dpr_DESC',
+  KastAsc = 'kast_ASC',
+  KastDesc = 'kast_DESC',
+  ImpactAsc = 'impact_ASC',
+  ImpactDesc = 'impact_DESC',
+  AdrAsc = 'adr_ASC',
+  AdrDesc = 'adr_DESC',
+  KprAsc = 'kpr_ASC',
+  KprDesc = 'kpr_DESC'
+}
+
+export type PlayerUpdateInput = {
+  nick?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  avatar?: Maybe<AssetUpdateOneInlineInput>;
+  name?: Maybe<Scalars['String']>;
+  age?: Maybe<Scalars['Int']>;
+  team?: Maybe<Scalars['String']>;
+  major?: Maybe<Scalars['Int']>;
+  ratio?: Maybe<Scalars['Float']>;
+  dpr?: Maybe<Scalars['Float']>;
+  kast?: Maybe<Scalars['Float']>;
+  impact?: Maybe<Scalars['Float']>;
+  adr?: Maybe<Scalars['Float']>;
+  kpr?: Maybe<Scalars['Float']>;
+};
+
+export type PlayerUpdateManyInlineInput = {
+  /** Create and connect multiple Player documents */
+  create?: Maybe<Array<PlayerCreateInput>>;
+  /** Connect multiple existing Player documents */
+  connect?: Maybe<Array<PlayerConnectInput>>;
+  /** Override currently-connected documents with multiple existing Player documents */
+  set?: Maybe<Array<PlayerWhereUniqueInput>>;
+  /** Update multiple Player documents */
+  update?: Maybe<Array<PlayerUpdateWithNestedWhereUniqueInput>>;
+  /** Upsert multiple Player documents */
+  upsert?: Maybe<Array<PlayerUpsertWithNestedWhereUniqueInput>>;
+  /** Disconnect multiple Player documents */
+  disconnect?: Maybe<Array<PlayerWhereUniqueInput>>;
+  /** Delete multiple Player documents */
+  delete?: Maybe<Array<PlayerWhereUniqueInput>>;
+};
+
+export type PlayerUpdateManyInput = {
+  nick?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  age?: Maybe<Scalars['Int']>;
+  team?: Maybe<Scalars['String']>;
+  major?: Maybe<Scalars['Int']>;
+  ratio?: Maybe<Scalars['Float']>;
+  dpr?: Maybe<Scalars['Float']>;
+  kast?: Maybe<Scalars['Float']>;
+  impact?: Maybe<Scalars['Float']>;
+  adr?: Maybe<Scalars['Float']>;
+  kpr?: Maybe<Scalars['Float']>;
+};
+
+export type PlayerUpdateManyWithNestedWhereInput = {
+  /** Document search */
+  where: PlayerWhereInput;
+  /** Update many input */
+  data: PlayerUpdateManyInput;
+};
+
+export type PlayerUpdateOneInlineInput = {
+  /** Create and connect one Player document */
+  create?: Maybe<PlayerCreateInput>;
+  /** Update single Player document */
+  update?: Maybe<PlayerUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single Player document */
+  upsert?: Maybe<PlayerUpsertWithNestedWhereUniqueInput>;
+  /** Connect existing Player document */
+  connect?: Maybe<PlayerWhereUniqueInput>;
+  /** Disconnect currently connected Player document */
+  disconnect?: Maybe<Scalars['Boolean']>;
+  /** Delete currently connected Player document */
+  delete?: Maybe<Scalars['Boolean']>;
+};
+
+export type PlayerUpdateWithNestedWhereUniqueInput = {
+  /** Unique document search */
+  where: PlayerWhereUniqueInput;
+  /** Document to update */
+  data: PlayerUpdateInput;
+};
+
+export type PlayerUpsertInput = {
+  /** Create document if it didn't exist */
+  create: PlayerCreateInput;
+  /** Update document if it exists */
+  update: PlayerUpdateInput;
+};
+
+export type PlayerUpsertWithNestedWhereUniqueInput = {
+  /** Unique document search */
+  where: PlayerWhereUniqueInput;
+  /** Upsert data */
+  data: PlayerUpsertInput;
+};
+
+/** Identifies documents */
+export type PlayerWhereInput = {
+  /** Contains search across all appropriate fields. */
+  _search?: Maybe<Scalars['String']>;
+  /** Logical AND on all given filters. */
+  AND?: Maybe<Array<PlayerWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: Maybe<Array<PlayerWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: Maybe<Array<PlayerWhereInput>>;
+  id?: Maybe<Scalars['ID']>;
+  /** All values that are not equal to given value. */
+  id_not?: Maybe<Scalars['ID']>;
+  /** All values that are contained in given list. */
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  /** All values that are not contained in given list. */
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  /** All values containing the given string. */
+  id_contains?: Maybe<Scalars['ID']>;
+  /** All values not containing the given string. */
+  id_not_contains?: Maybe<Scalars['ID']>;
+  /** All values starting with the given string. */
+  id_starts_with?: Maybe<Scalars['ID']>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: Maybe<Scalars['ID']>;
+  /** All values ending with the given string. */
+  id_ends_with?: Maybe<Scalars['ID']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  createdAt_not?: Maybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  createdAt_in?: Maybe<Array<Scalars['DateTime']>>;
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: Maybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  createdAt_lt?: Maybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  createdAt_lte?: Maybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  createdAt_gt?: Maybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  updatedAt_not?: Maybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: Maybe<Array<Scalars['DateTime']>>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: Maybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: Maybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: Maybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: Maybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: Maybe<Scalars['DateTime']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  publishedAt_not?: Maybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  publishedAt_in?: Maybe<Array<Scalars['DateTime']>>;
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: Maybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  publishedAt_lt?: Maybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: Maybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  publishedAt_gt?: Maybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: Maybe<Scalars['DateTime']>;
+  nick?: Maybe<Scalars['String']>;
+  /** All values that are not equal to given value. */
+  nick_not?: Maybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  nick_in?: Maybe<Array<Scalars['String']>>;
+  /** All values that are not contained in given list. */
+  nick_not_in?: Maybe<Array<Scalars['String']>>;
+  /** All values containing the given string. */
+  nick_contains?: Maybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  nick_not_contains?: Maybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  nick_starts_with?: Maybe<Scalars['String']>;
+  /** All values not starting with the given string. */
+  nick_not_starts_with?: Maybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  nick_ends_with?: Maybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  nick_not_ends_with?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  /** All values that are not equal to given value. */
+  slug_not?: Maybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  slug_in?: Maybe<Array<Scalars['String']>>;
+  /** All values that are not contained in given list. */
+  slug_not_in?: Maybe<Array<Scalars['String']>>;
+  /** All values containing the given string. */
+  slug_contains?: Maybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  slug_not_contains?: Maybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  slug_starts_with?: Maybe<Scalars['String']>;
+  /** All values not starting with the given string. */
+  slug_not_starts_with?: Maybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  slug_ends_with?: Maybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  slug_not_ends_with?: Maybe<Scalars['String']>;
+  avatar?: Maybe<AssetWhereInput>;
+  name?: Maybe<Scalars['String']>;
+  /** All values that are not equal to given value. */
+  name_not?: Maybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  name_in?: Maybe<Array<Scalars['String']>>;
+  /** All values that are not contained in given list. */
+  name_not_in?: Maybe<Array<Scalars['String']>>;
+  /** All values containing the given string. */
+  name_contains?: Maybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  name_not_contains?: Maybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  name_starts_with?: Maybe<Scalars['String']>;
+  /** All values not starting with the given string. */
+  name_not_starts_with?: Maybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  name_ends_with?: Maybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  name_not_ends_with?: Maybe<Scalars['String']>;
+  age?: Maybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  age_not?: Maybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  age_in?: Maybe<Array<Scalars['Int']>>;
+  /** All values that are not contained in given list. */
+  age_not_in?: Maybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  age_lt?: Maybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  age_lte?: Maybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  age_gt?: Maybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  age_gte?: Maybe<Scalars['Int']>;
+  team?: Maybe<Scalars['String']>;
+  /** All values that are not equal to given value. */
+  team_not?: Maybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  team_in?: Maybe<Array<Scalars['String']>>;
+  /** All values that are not contained in given list. */
+  team_not_in?: Maybe<Array<Scalars['String']>>;
+  /** All values containing the given string. */
+  team_contains?: Maybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  team_not_contains?: Maybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  team_starts_with?: Maybe<Scalars['String']>;
+  /** All values not starting with the given string. */
+  team_not_starts_with?: Maybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  team_ends_with?: Maybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  team_not_ends_with?: Maybe<Scalars['String']>;
+  major?: Maybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  major_not?: Maybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  major_in?: Maybe<Array<Scalars['Int']>>;
+  /** All values that are not contained in given list. */
+  major_not_in?: Maybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  major_lt?: Maybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  major_lte?: Maybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  major_gt?: Maybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  major_gte?: Maybe<Scalars['Int']>;
+  ratio?: Maybe<Scalars['Float']>;
+  /** All values that are not equal to given value. */
+  ratio_not?: Maybe<Scalars['Float']>;
+  /** All values that are contained in given list. */
+  ratio_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values that are not contained in given list. */
+  ratio_not_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  ratio_lt?: Maybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  ratio_lte?: Maybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  ratio_gt?: Maybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  ratio_gte?: Maybe<Scalars['Float']>;
+  dpr?: Maybe<Scalars['Float']>;
+  /** All values that are not equal to given value. */
+  dpr_not?: Maybe<Scalars['Float']>;
+  /** All values that are contained in given list. */
+  dpr_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values that are not contained in given list. */
+  dpr_not_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  dpr_lt?: Maybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  dpr_lte?: Maybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  dpr_gt?: Maybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  dpr_gte?: Maybe<Scalars['Float']>;
+  kast?: Maybe<Scalars['Float']>;
+  /** All values that are not equal to given value. */
+  kast_not?: Maybe<Scalars['Float']>;
+  /** All values that are contained in given list. */
+  kast_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values that are not contained in given list. */
+  kast_not_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  kast_lt?: Maybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  kast_lte?: Maybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  kast_gt?: Maybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  kast_gte?: Maybe<Scalars['Float']>;
+  impact?: Maybe<Scalars['Float']>;
+  /** All values that are not equal to given value. */
+  impact_not?: Maybe<Scalars['Float']>;
+  /** All values that are contained in given list. */
+  impact_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values that are not contained in given list. */
+  impact_not_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  impact_lt?: Maybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  impact_lte?: Maybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  impact_gt?: Maybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  impact_gte?: Maybe<Scalars['Float']>;
+  adr?: Maybe<Scalars['Float']>;
+  /** All values that are not equal to given value. */
+  adr_not?: Maybe<Scalars['Float']>;
+  /** All values that are contained in given list. */
+  adr_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values that are not contained in given list. */
+  adr_not_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  adr_lt?: Maybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  adr_lte?: Maybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  adr_gt?: Maybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  adr_gte?: Maybe<Scalars['Float']>;
+  kpr?: Maybe<Scalars['Float']>;
+  /** All values that are not equal to given value. */
+  kpr_not?: Maybe<Scalars['Float']>;
+  /** All values that are contained in given list. */
+  kpr_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values that are not contained in given list. */
+  kpr_not_in?: Maybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  kpr_lt?: Maybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  kpr_lte?: Maybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  kpr_gt?: Maybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  kpr_gte?: Maybe<Scalars['Float']>;
+};
+
+/** References Player record uniquely */
+export type PlayerWhereUniqueInput = {
+  id?: Maybe<Scalars['ID']>;
+  slug?: Maybe<Scalars['String']>;
+};
+
 export type PublishLocaleInput = {
   /** Locales to publish */
   locale: Locale;
@@ -1417,6 +2419,14 @@ export type Query = {
   pagesConnection: PageConnection;
   /** Retrieve document version */
   pageVersion?: Maybe<DocumentVersion>;
+  /** Retrieve multiple players */
+  players: Array<Player>;
+  /** Retrieve a single player */
+  player?: Maybe<Player>;
+  /** Retrieve multiple players using the Relay connection interface */
+  playersConnection: PlayerConnection;
+  /** Retrieve document version */
+  playerVersion?: Maybe<DocumentVersion>;
 };
 
 
@@ -1499,6 +2509,44 @@ export type QueryPagesConnectionArgs = {
 
 
 export type QueryPageVersionArgs = {
+  where: VersionWhereInput;
+};
+
+
+export type QueryPlayersArgs = {
+  where?: Maybe<PlayerWhereInput>;
+  orderBy?: Maybe<PlayerOrderByInput>;
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  stage?: Stage;
+  locales?: Array<Locale>;
+};
+
+
+export type QueryPlayerArgs = {
+  where: PlayerWhereUniqueInput;
+  stage?: Stage;
+  locales?: Array<Locale>;
+};
+
+
+export type QueryPlayersConnectionArgs = {
+  where?: Maybe<PlayerWhereInput>;
+  orderBy?: Maybe<PlayerOrderByInput>;
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  stage?: Stage;
+  locales?: Array<Locale>;
+};
+
+
+export type QueryPlayerVersionArgs = {
   where: VersionWhereInput;
 };
 
@@ -1681,6 +2729,21 @@ export type GetPageBySlugQuery = (
     & { body: (
       { __typename?: 'RichText' }
       & Pick<RichText, 'html'>
+    ) }
+  )> }
+);
+
+export type GetPlayersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPlayersQuery = (
+  { __typename?: 'Query' }
+  & { players: Array<(
+    { __typename?: 'Player' }
+    & Pick<Player, 'id' | 'nick' | 'slug' | 'name' | 'age' | 'team' | 'major'>
+    & { avatar: (
+      { __typename?: 'Asset' }
+      & Pick<Asset, 'url'>
     ) }
   )> }
 );
