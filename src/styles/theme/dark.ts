@@ -6,5 +6,6 @@ export default {
     lighten: '#121212',
     link: '#7a92ab',
     badge: '#fcbf14',
+    badgeAlert: '#ff4646',
   },
 };
