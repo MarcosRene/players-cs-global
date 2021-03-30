@@ -33,6 +33,7 @@ export default createGlobalStyle`
 
     body,
     #__next {
+      width: 100vw;
       min-height: 100vh;
       position: relative;
       display: flex;

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/dist/client/router';
 import { memo } from 'react';
+import Image from 'next/image';
 
 import { useTheme } from 'styled-components';
 import { PlayersProps } from 'templates/types/player';
@@ -23,7 +24,13 @@ const CardPlayer = ({ players }: PlayersProps) => {
 
         return (
           <Container key={player.id} onClick={() => handleBySlug(player.slug)}>
-            <img src={player.avatar?.url} alt={player.name} />
+            <Image
+              src={player.avatar?.url}
+              alt={player.name}
+              width={270}
+              height={290}
+              quality={75}
+            />
             <header>
               <h2>{player.nick}</h2>
               <span>{player.name}</span>

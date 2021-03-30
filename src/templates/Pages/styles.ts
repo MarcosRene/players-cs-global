@@ -18,6 +18,8 @@ export const Container = styled.div`
 `;
 
 export const Body = styled.section`
+  padding: 0 2rem;
+
   > div {
     > p {
       font-size: 1.8rem;

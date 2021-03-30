@@ -1,10 +1,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/dist/client/router';
 
-import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
+import { ArrowBackOutline as ArrowBack } from '@styled-icons/evaicons-outline/ArrowBackOutline';
 import { useTheme } from 'styled-components';
 
-import Button from '@components/Button';
 import Tooltip from '@components/Tooltip';
 import Badge from '@components/Badge';
 
@@ -17,6 +16,7 @@ import {
   Username,
   Nick,
   Info,
+  Button,
 } from './styles';
 
 const Players = ({ player }: PlayerProps) => {
@@ -30,10 +30,10 @@ const Players = ({ player }: PlayerProps) => {
 
   return (
     <>
-      <Button href="/">
-        <CloseOutline size={32} arial-label="go back home" />
-      </Button>
       <Container>
+        <Button href="/">
+          <ArrowBack size={32} arial-label="go back home" />
+        </Button>
         <Content>
           <Profile>
             <aside>

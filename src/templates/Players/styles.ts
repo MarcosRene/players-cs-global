@@ -1,87 +1,56 @@
+import media from 'styled-media-query';
 import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 75rem;
   height: 100%;
   margin: 0 auto;
-  padding-top: 15rem;
+  padding: 15rem 2rem;
+  position: relative;
+
+  ${media.greaterThan('medium')`
+    max-width: 70rem;
+  `}
 `;
 
 export const Content = styled.section`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  ${media.greaterThan('medium')`
+    flex-direction: row;
+  `}
 `;
 
 export const Profile = styled.div`
   ${({ theme }) => css`
-    border-right: 1px solid ${theme.colors.link};
-    padding: 0 2rem;
+    border-bottom: 1px solid ${theme.colors.link};
+    padding: 2rem 2rem;
+    margin-bottom: 2rem;
 
     > aside {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-
-      /* img {
-        background-image: linear-gradient(
-          -90deg,
-          #e7edf1 0%,
-          #f8f8f8 50%,
-          #e7edf1 100%
-        );
-
-        background-size: 100% 100%;
-        animation: shimmer 1s ease-in-out infinite;
-
-        @keyframes shimmer {
-          0% {
-            background-position: 0% 0%;
-          }
-          100% {
-            background-position: -135% 0%;
-          }
-        }
-      } */
 
       > div {
         width: 20rem;
         flex-direction: column;
       }
     }
+
+    ${media.greaterThan('medium')`
+      border-right: 1px solid ${theme.colors.link};
+    `}
   `}
 `;
 
-// export const Shimmer = styled.div`
-//   ${({ theme }) => css`
-//     border-radius: 0.2rem;
-
-//     img {
-//       background-image: linear-gradient(
-//         -90deg,
-//         #e7edf1 0%,
-//         #f8f8f8 50%,
-//         #e7edf1 100%
-//       );
-
-//       background-size: 400% 400%;
-//       animation: shimmer 180ms ease-in-out infinite;
-
-//       @keyframes shimmer {
-//         0% {
-//           background-position: 0% 0%;
-//         }
-//         100% {
-//           background-position: -135% 0%;
-//         }
-//       }
-//     }
-//   `}
-// `;
-
 export const Username = styled.div`
   ${({ theme }) => css`
+    margin-top: 2rem;
     margin-bottom: 1.5rem;
     cursor: pointer;
 
@@ -107,6 +76,10 @@ export const Username = styled.div`
         width: 90%;
       }
     }
+
+    ${media.greaterThan('medium')`
+      margin-top: 0;
+    `}
   `};
 `;
 
@@ -163,4 +136,22 @@ export const Statistic = styled.div`
       }
     }
   `}
+`;
+
+export const Button = styled.a`
+  ${({ theme }) => css`
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    color: ${theme.colors.text};
+    > svg {
+      transition: color 180ms ease-in-out;
+    }
+
+    &:hover {
+      > svg {
+        color: ${theme.colors.link};
+      }
+    }
+  `};
 `;
