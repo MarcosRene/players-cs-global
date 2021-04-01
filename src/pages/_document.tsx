@@ -12,7 +12,10 @@ export default class MyApp extends Document {
   render() {
     return (
       <Html lang="pt-BR">
-        <Head />
+        <Head>
+          <link rel="manifest" href="/manifest.json" />
+          <meta name="theme-color" content="#161a1f" />
+        </Head>
         <body>
           <Main />
           <NextScript />
