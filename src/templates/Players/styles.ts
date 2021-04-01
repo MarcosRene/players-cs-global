@@ -43,7 +43,12 @@ export const Profile = styled.div`
     }
 
     ${media.greaterThan('medium')`
+      border-bottom: 0;
       border-right: 1px solid ${theme.colors.link};
+
+       > aside {
+          flex-direction: row;
+       }
     `}
   `}
 `;
